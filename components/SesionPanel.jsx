@@ -13,7 +13,7 @@ export default function SesionPanel() {
 
 
     const handleClick = () =>{
-        router.push("/Perfil");
+        router.push(`/Perfil/${user.id}`);
     }
 
   return (

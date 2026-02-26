@@ -50,7 +50,7 @@ const ListadoPrincipal = () => {
               <div className="mt-4 flex justify-between">
                 <div>
                   
-                    <Link href={"/"}>
+                    <Link href={`VerLocal/${local.id}`}>
                       <span aria-hidden="true" className="absolute inset-0" />
                       {local.name}
                     </Link>

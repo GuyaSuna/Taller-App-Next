@@ -55,11 +55,57 @@ const postLocal = async (name, type, priceRange , city, zone, address , hours , 
 
 }
 
+
+const getLocal = async (id) => {
+
+    const response = await fetch(`${BASE_URL}/api/locals/${id}`);
+
+    const data = await response.json();
+
+    return data;
+}
+
+const postReview = async (id, rating , comment) => {
+    const response = await fetch(`${BASE_URL}/api/locals/${id}/reviews`,{
+        method: "POST",
+        headers: {"Content-Type" : "application/json" , 
+           "Authorization"  : `Bearer ${localStorage.getItem("token")}`
+        },
+        body : JSON.stringify({rating , comment})
+    });
+    
+    console.log(response);
+
+    if( response.ok){
+        const data = await response.json();  
+        return data;
+    }else{
+        return null;
+    }
+
+}
+
+
+
+const getUser = async (id) => {
+
+    const response = await fetch(`${BASE_URL}/api/users/${id}`)
+
+    const data = await response.json();
+
+    return data;
+}
+
+
+
 export{
     register,
     login,
     getLocals,
     postLocal,
+    getLocal,
+    postReview,
+    getUser
 }
 
 
