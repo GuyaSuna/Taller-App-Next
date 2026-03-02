@@ -2,6 +2,8 @@
 import { useState , useEffect } from 'react';
 import { getUser } from '../api/api';
 import { useParams } from 'next/navigation';
+import Alert from '@mui/material/Alert';
+
 import Link from 'next/link';
 
 export default function PerfilComponent() {
@@ -9,17 +11,21 @@ export default function PerfilComponent() {
     const params = useParams();
     const [user , setUser] = useState({});
     const [locals , setLocals] = useState([]);
-
+    const [error , setError] = useState("");
 
         useEffect(() => {
 
             const fetchUser = async () => {
+              try{
                 const data = await getUser(params.id);
 
                 console.log(data)
 
                 setUser(data.item)
                 setLocals(data.item.locals)
+              }catch(error){
+                setError(error.message)
+              }
             }
             fetchUser()
         },[])
@@ -27,6 +33,7 @@ export default function PerfilComponent() {
   
         return (
     <div className="bg-white py-24 sm:py-32">
+      {error ? <Alert severity="error">{error}.</Alert>  : 
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
        
                 <ul role="list" className="">
@@ -52,7 +59,7 @@ export default function PerfilComponent() {
             <div key={local.id} className="group relative">
               <img
                 alt={local.name}
-                src={local.photos ? local.photos[0] : "https://img.freepik.com/vector-gratis/apoye-concepto-negocio-local_23-2148592675.jpg?semt=ais_user_personalization&w=740&q=80"}
+                src={local.photos && local.photos[0] ? local.photos[0] : "https://img.freepik.com/vector-gratis/apoye-concepto-negocio-local_23-2148592675.jpg?semt=ais_user_personalization&w=740&q=80"}
                 className="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
               />
               <div className="mt-4 flex justify-between">
@@ -72,7 +79,7 @@ export default function PerfilComponent() {
         </div>
         </div>
       </div>
-    </div>
+    </div>}
     </div>
   )
 }

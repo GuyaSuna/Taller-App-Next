@@ -91,8 +91,12 @@ const getUser = async (id) => {
 
     const response = await fetch(`${BASE_URL}/api/users/${id}`)
 
-    const data = await response.json();
-
+   
+    if(!response.ok){
+        throw new Error("Error en getUser");
+    }
+        
+        const data = await response.json();
     return data;
 }
 

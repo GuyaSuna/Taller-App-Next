@@ -3,9 +3,11 @@
 import { useState , useEffect} from "react";
 import { getLocals } from "../api/api";
 import Busqueda from "./Busqueda";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const ListadoPrincipal = () => {
+    const router = useRouter();
     const [user , setUser] = useState(null);
     const [token , setToken] = useState("");
     const [locals , setLocals] = useState([]);
@@ -18,10 +20,14 @@ const ListadoPrincipal = () => {
     const [zone , setZone] = useState("");
     
     useEffect(() => {
-        const u = JSON.parse(localStorage.getItem("user"));
-        setUser(u);
+        const u = localStorage.getItem("user");
+        if(u){
+        setUser(JSON.parse(u));
         const t = localStorage.getItem("token")
         setToken(t);
+      }else{
+        router.push("/");
+      }
     },[])
 
     
